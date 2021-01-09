@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+  <Query>
+      <SolutionDirectory>C:\Users\mmmma\source\repos\CodeGenerator</SolutionDirectory>
+      <ClassQueryProject>CodeGenerator.Framewrok</ClassQueryProject>
+      <SqlQueryProject>CodeGenerator.Framewrok</SqlQueryProject>
+      <ClassQueryDirectory>Query</ClassQueryDirectory>
+      <SqlQueryDirectory>TestData\Sql</SqlQueryDirectory>
+      <DataBase>AtonBase</DataBase>
+      <ParentClass>AtonBaseQuery</ParentClass>
+  </Query>
+</Config>

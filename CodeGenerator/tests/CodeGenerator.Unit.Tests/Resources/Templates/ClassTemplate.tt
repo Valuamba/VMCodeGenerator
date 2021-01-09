@@ -1,0 +1,21 @@
+﻿<#@ template language="c#" hostSpecific="true" debug="true" #>
+<# 
+	CustomCmdLineHost host = (CustomCmdLineHost) (Host);
+	string nameSpace = (string) host.GetValue("NameSpace");
+	string className = (string) host.GetValue("ClassName");
+	string baseClass = (string) host.GetValue("BaseClass");
+#>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+
+namespace <#= nameSpace #>
+{
+	public class <#= className #> : <#= baseClass #>
+	{
+		public <#= className #>() : base(nameof(<#= className #>))
+		{
+		}
+	}
+}

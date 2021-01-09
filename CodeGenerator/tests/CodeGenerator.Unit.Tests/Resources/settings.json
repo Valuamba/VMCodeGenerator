@@ -1,0 +1,9 @@
+﻿{
+  "templates": {
+    "classTemplate": "ClassTemplate.tt",
+    "sqlTemplate": "SqlClassTemplate.tt"
+  },
+  "config": {
+    "name": "user.config.xml"
+  }
+}
