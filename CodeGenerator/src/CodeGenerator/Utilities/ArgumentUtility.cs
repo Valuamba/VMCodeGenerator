@@ -53,9 +53,9 @@ namespace CodeGenerator.Utilities
                 case "--base":
                     return (ParrentClassCommand)Activator.CreateInstance(typeof(ParrentClassCommand), args[++index]);
                 case "--cpath":
-                    return (ClassProjectPathCommand)Activator.CreateInstance(typeof(ParrentClassCommand), args[++index]);
+                    return (ClassProjectPathCommand)Activator.CreateInstance(typeof(ClassProjectPathCommand), args[++index]);
                 case "--spath":
-                    return (SqlProjectPathCommand)Activator.CreateInstance(typeof(ParrentClassCommand), args[++index]);
+                    return (SqlProjectPathCommand)Activator.CreateInstance(typeof(SqlProjectPathCommand), args[++index]);
 
                 default: throw new ArgumentException("Incorrect argument");
             };

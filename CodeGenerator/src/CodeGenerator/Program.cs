@@ -7,9 +7,20 @@ namespace CodeGenerator
 {
     public class Program1
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            QueryConfigXmlBuilder xmlBuilder = new QueryConfigXmlBuilder();
+            //args = new string[]
+            //{
+            //    "create",
+            //    "-n",
+            //    "FirstName",
+            //    "-db",
+            //    "AtonBase",
+            //    "-b",
+            //    "AtonBaseQuery"
+            //};
+            QueryManager manager = new QueryManager();
+            manager.Execute(args);
         }
     }
 }

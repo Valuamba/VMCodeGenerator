@@ -15,8 +15,9 @@ namespace CodeGenerator.Test
         private const string QueryName = "SelectAllStocks";
         private const string DataBase = "DefaultBase";
         private const string ProjectName = "Project1";
-        private const string ProjectQueryDirectory = @"TestData\Query\Class";
+        private const string IncludeQueryDirectory = @"TestData\Query\Class";
         private const string ParrentClassName = "BaseSelect";
+        private const string IncludeDataBasePath = "Deals";
 
         private string AssemblyPath => Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
 
@@ -28,7 +29,7 @@ namespace CodeGenerator.Test
         [TestInitialize]
         public void TestInit()
         {
-            Generator = new ClassQueryGenerator(QueryName, DataBase, ProjectName, ProjectQueryDirectory, SolutionPath, TemplatePath, ParrentClassName);
+            Generator = new ClassQueryGenerator(QueryName, DataBase, IncludeDataBasePath, ProjectName, IncludeQueryDirectory, SolutionPath, TemplatePath, ParrentClassName);
         }
 
         [TestCleanup]
@@ -40,13 +41,15 @@ namespace CodeGenerator.Test
         [TestMethod]
         public void Should_GetCorrectNamespace()
         {
-            Assert.AreEqual("Project1.TestData.Query.Class.DefaultBase", Generator.GenerateNamespace());
+            var nameSpace = $"{ProjectName}.{IncludeQueryDirectory.Replace("\\", ".").Replace("/", ".")}.{DataBase}.{IncludeDataBasePath}";
+            Assert.AreEqual(nameSpace, Generator.Namespace);
         }
 
         [TestMethod]
         public void Should_GetCorrectPathForProjectFile()
         {
-            Assert.AreEqual(@"TestData\Query\Class\DefaultBase\SelectAllStocks.cs", Generator.GeneratePathForProjectFile());
+            var includeDirectoryPath = Path.Combine(IncludeQueryDirectory, DataBase, IncludeDataBasePath);
+            Assert.AreEqual(includeDirectoryPath, Generator.IncludeDirectoryPath);
         }
     }
 }

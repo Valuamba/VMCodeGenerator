@@ -107,6 +107,7 @@
     <Compile Include="ArgumentUtilityTest.cs" />
     <Compile Include="AssertHelper\AssertExceptions.cs" />
     <Compile Include="CompositeCommandTest.cs" />
+    <Compile Include="ProgramTest.cs" />
     <Compile Include="QueryGeneratorTest.cs" />
     <Compile Include="QueryManagerTest.cs" />
     <Compile Include="SolutionInfoTests.cs" />

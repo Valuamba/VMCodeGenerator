@@ -58,7 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\QueryConstructorAttribute.cs" />
     <Compile Include="Commands\ParrentClassCommand.cs" />
     <Compile Include="Commands\ClassProjectPathCommand.cs" />
     <Compile Include="Commands\DataBaseCommand.cs" />
@@ -79,6 +78,7 @@
     <Compile Include="Document\Xml\XmlBuilder.cs" />
     <Compile Include="Document\Xml\XmlBuilderCommonSettings.cs" />
     <Compile Include="Exceptions\SolutionException.cs" />
+    <Compile Include="Generators\ProjectInfo.cs" />
     <Compile Include="Generators\SqlQueryGenerator.cs" />
     <Compile Include="Generators\TextTemplateEngineHost.cs" />
     <Compile Include="Generators\ClassHost.cs" />

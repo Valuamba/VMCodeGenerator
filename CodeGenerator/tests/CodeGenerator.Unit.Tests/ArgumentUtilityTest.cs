@@ -28,7 +28,7 @@ namespace CodeGenerator.Test
             Assert.AreEqual(4, compositeCommand.ChildCommands.Count, "Count does not equal to 4.");
             Assert.AreEqual(typeof(NameCommand), compositeCommand.ChildCommands[0].GetType(), "Incorrect type of command.");
             Assert.AreEqual(typeof(DataBaseCommand), compositeCommand.ChildCommands[1].GetType(), "Incorrect type of command.");
-            Assert.AreEqual(typeof(PathCommand), compositeCommand.ChildCommands[2].GetType(), "Incorrect type of command.");
+            Assert.AreEqual(typeof(ClassProjectPathCommand), compositeCommand.ChildCommands[2].GetType(), "Incorrect type of command.");
             Assert.AreEqual(typeof(ParrentClassCommand), compositeCommand.ChildCommands[3].GetType(), "Incorrect type of command.");
         }
     }

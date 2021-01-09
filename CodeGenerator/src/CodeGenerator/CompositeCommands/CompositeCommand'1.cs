@@ -6,6 +6,7 @@ using System.Linq;
 namespace CodeGenerator.CompositeCommands
 {
     public abstract class CompositeCommand<T> : ICompositeCommand<T>
+        where T : class
     {
         public List<ICommand<T>> ChildCommands { get; }
 
@@ -16,7 +17,7 @@ namespace CodeGenerator.CompositeCommands
 
         public virtual T GetInvokeResult(int index)
         {
-            return ChildCommands.ElementAt(index).Invoke();
+            return ChildCommands.ElementAt(index)?.Invoke();
         }
 
         public virtual void Add(ICommand<T> command)

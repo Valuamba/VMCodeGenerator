@@ -9,75 +9,65 @@ namespace CodeGenerator.Generators
     {
         protected abstract ItemType ItemType { get; }
         protected abstract string FileExtension { get; }
-        protected TextTemplateEngineHost EngineHost;
+        private TextTemplateEngineHost textTemplateEngineHost;
+        protected TextTemplateEngineHost EngineHost
+        {
+            get
+            {
+                if(textTemplateEngineHost == null)
+                {
+                    textTemplateEngineHost = InitializeHost();
+                }
+                return textTemplateEngineHost;
+            }
+        }
         public readonly Engine Engine;
         protected SolutionInfo Solution;
 
         public readonly string Name;
         public readonly string ProjectName;
-        public readonly string ProjectQueryDirectory;
+        public readonly string IncludeQueryDirectory;
         public readonly string DataBase;
         public readonly string TemplatePath;
 
-        public QueryGenerator(string queryName, string dataBase, string projectName, string projectQueryDirectory, string solutionPath, string templatePath)
+        public QueryGenerator(string queryName, string dataBase, string projectName, string includeQueryDirectory, string solutionPath, string templatePath)
         {
-            Engine = new Engine(); 
-            Solution = new SolutionInfo(solutionPath);
+            Engine = new Engine();
+            Solution = SolutionInfo.GetInstance(solutionPath);
             Name = queryName;
             DataBase = dataBase;
-            ProjectQueryDirectory = projectQueryDirectory;
+            IncludeQueryDirectory = includeQueryDirectory;
             TemplatePath = templatePath;
             ProjectName = projectName;
-            EngineHost = InitializeHost();
         }
+        protected abstract TextTemplateEngineHost InitializeHost();
 
-        public string GenerateContent()
+        public virtual string IncludeDirectoryPath => Path.Combine(IncludeQueryDirectory, DataBase);
+
+        public virtual string GenerateContent()
         {
             return Engine.ProcessTemplate(File.ReadAllText(TemplatePath), EngineHost);
         }
 
-        public string GeneratePathForProjectFile()
-        {
-            return Path.Combine(ProjectQueryDirectory, DataBase, Name + FileExtension);
-        }
-
-        public string GenerateNamespace()
-        {
-            return $"{ProjectName}.{Path.GetDirectoryName(GeneratePathForProjectFile()).Replace("\\", ".").Replace("/", ".")}";
-        }
-
-        protected abstract TextTemplateEngineHost InitializeHost();
-
         public void Generate()
         {
-            var pathForProjectFile = GeneratePathForProjectFile();
-            ThrowExceptionUtility.ThrowException<SolutionException>(() => Solution[ProjectName, pathForProjectFile].Count != 0,
-                message: $"File at path [{pathForProjectFile}] already exists in [{ProjectName}] project file.");
-            Solution.AddItem(ProjectName, pathForProjectFile, GenerateContent(), ItemType);
+            Solution.AddItem(ProjectName, IncludeDirectoryPath, Name + FileExtension, GenerateContent(), ItemType);
         }
 
+        //Chquery create -n SelectAllSocks –parrent SelectBaseDeal -db AtonBase –cpath Query\Class\ --spath TestData\Query
         public void Regenerate()
         {
-            var pathForProjectFile = GeneratePathForProjectFile();
-            ThrowExceptionUtility.ThrowException<SolutionException>(() => Solution[ProjectName, pathForProjectFile].Count == 0,
-                message: $"File at path [{pathForProjectFile}] does not exist in [{ProjectName}] project file.");
-            Solution.Regenerate(ProjectName, pathForProjectFile, GenerateContent());
+            Solution.Regenerate(ProjectName, IncludeDirectoryPath, Name + FileExtension, GenerateContent());
         }
 
         public void Rename(string newName)
         {
-            var pathForProjectFile = GeneratePathForProjectFile();
-            ThrowExceptionUtility.ThrowException<SolutionException>(() => Solution[ProjectName, pathForProjectFile].Count == 0,
-                message: $"File at path [{pathForProjectFile}] does not exist in [{ProjectName}] project file.");
-            Solution.Rename(ProjectName, pathForProjectFile, newName);
+            Solution.Rename(ProjectName, IncludeDirectoryPath, Name + FileExtension, newName);
         }
 
         public void Delete()
         {
-            var pathForProjectFile = GeneratePathForProjectFile();
-            ThrowExceptionUtility.ThrowException<SolutionException>(() => Solution[ProjectName, pathForProjectFile].Count == 0,
-                message: $"File at path [{pathForProjectFile}] does not exist in [{ProjectName}] project file.");
-            Solution.Delete(ProjectName, pathForProjectFile);
+            Solution.Delete(ProjectName, IncludeDirectoryPath, Name + FileExtension);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.Evaluation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,15 +11,14 @@ namespace CodeGenerator.Generators
     public class SolutionInfo
     {
         private const string SolutionFileExtension = ".sln";
-        private const string ProjectFileExtension = ".csproj";
 
         public readonly DirectoryInfo SolutionDirectory;
         public readonly FileInfo SolutionFile;
-        public readonly List<Project> Projects;
+        public readonly List<ProjectInfo> Projects;
 
-        public SolutionInfo(string path)
+        private SolutionInfo(string path)
         {
-            if(!IsSolutionDirectory(path, out SolutionFile))
+            if (!IsSolutionDirectory(path, out SolutionFile))
             {
                 throw new ArgumentException($"Directory at path [{path}] does not directory of solution.");
             }
@@ -28,21 +26,17 @@ namespace CodeGenerator.Generators
             SolutionDirectory = new DirectoryInfo(path);
         }
 
-        public Project this[string projectPath]
+        private static SolutionInfo instance;
+        public static SolutionInfo GetInstance(string path)
         {
-            get
+            if (instance == null)
             {
-                return Projects.GetProject(projectPath);
+                instance = new SolutionInfo(path);
             }
+            return instance;
         }
 
-        public ICollection<ProjectItem> this[string projectPath, string evaluatedInclude]
-        {
-            get
-            {
-                return Projects.Single(x => x.FullPath.Contains(projectPath)).GetItemsByEvaluatedInclude(evaluatedInclude);
-            }
-        }
+        public ProjectInfo this[string projectPath] => Projects.GetProject(projectPath);
 
         public bool IsSolutionDirectory(string path, out FileInfo solutionFile)
         {
@@ -50,45 +44,30 @@ namespace CodeGenerator.Generators
             return solutionFile != null;
         }
 
-        public void AddItem(string projectFileName, string includePath, string content, ItemType itemType = ItemType.Compile)
+        public void AddItem(string projectFileName, string includeDirectoryPath, string fileName, string content, ItemType itemType = ItemType.Compile)
         {
-            var proj = this[projectFileName];
-            Directory.CreateDirectory(Path.Combine(proj.DirectoryPath, Path.GetDirectoryName(includePath)));
-            File.WriteAllText(Path.Combine(proj.DirectoryPath, includePath), content);
-            proj.AddItem(itemType.ToString(), includePath);
-            proj.Save();
+            this[projectFileName].AddItem(includeDirectoryPath, fileName, content, itemType);
         }
 
-        public void Rename(string projectFileName, string includePath, string newName)
+        public void Rename(string projectFileName, string includeDirectoryPath, string fileName, string newName)
         {
-            var proj = this[projectFileName];
-            var item = proj.GetItemsByEvaluatedInclude(includePath).Single();
-            var sourceFullPath = Path.Combine(proj.DirectoryPath, includePath);
-            var destFullPath = Path.Combine(Path.GetDirectoryName(sourceFullPath), newName);
-            File.Move(sourceFullPath, destFullPath);
-            item.Rename(Path.Combine(Path.GetDirectoryName(includePath), newName));
-            proj.Save();
+            this[projectFileName].Rename(includeDirectoryPath, fileName, newName);
+
         }
 
-        public void Delete(string projectFileName, string includePath)
+        public void Delete(string projectFileName, string includeDirectoryPath, string fileName)
         {
-            var proj = this[projectFileName];
-            var item = proj.GetItemsByEvaluatedInclude(includePath).Single();
-            var sourceFullPath = Path.Combine(proj.DirectoryPath, includePath);
-            File.Delete(sourceFullPath);
-            proj.RemoveItem(item);
-            proj.Save();
+            this[projectFileName].Delete(includeDirectoryPath, fileName);
         }
 
-        public void Regenerate(string projectFileName, string includePath, string content)
+        public void Regenerate(string projectFileName, string includeDirectoryPath, string fileName, string content)
         {
-            var proj = this[projectFileName];
-            File.WriteAllText(Path.Combine(proj.DirectoryPath, includePath), content);
+            this[projectFileName].Regenerate(includeDirectoryPath, fileName, content);
         }
 
-        public List<Project> GetProjects()
+        public List<ProjectInfo> GetProjects()
         {
-            var projects = new List<Project>();
+            var projects = new List<ProjectInfo>();
             using (var fileStream = SolutionFile.OpenRead())
             {
                 using (var stream = new StreamReader(fileStream))
@@ -96,27 +75,12 @@ namespace CodeGenerator.Generators
                     var matches = Regex.Matches(stream.ReadToEnd(), "(?<=Project\\(\"\\{[\\w\\d-]+\\}\"\\) = \"[\\w\\.]+\", \")([\\.\\w\\\\]+(cs)proj)");
                     foreach (Match match in matches)
                     {
-                        projects.Add(new Project(Path.Combine(SolutionFile.DirectoryName, match.Value)));
+                        projects.Add(new ProjectInfo(Path.Combine(SolutionFile.DirectoryName, match.Value)));
                     }
                 }
             }
 
             return projects;
-        }
-
-        public string GetProjectFile(DirectoryInfo includedDirectory)
-        {
-            if (SolutionDirectory == includedDirectory)
-            {
-                return null;
-            }
-
-            if (includedDirectory.Exists)
-            {
-                var file = includedDirectory.GetFiles().ToList().SingleOrDefault(f => Path.GetExtension(f.FullName) == ProjectFileExtension)?.FullName;
-                return file ?? GetProjectFile(includedDirectory.Parent);
-            }
-            else return GetProjectFile(includedDirectory.Parent);
         }
     }
 }

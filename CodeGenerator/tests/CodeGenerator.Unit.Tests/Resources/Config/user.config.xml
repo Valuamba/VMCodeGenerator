@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Config>
   <Query>
-      <SolutionDirectory>C:\Users\mmmma\source\repos\CodeGenerator</SolutionDirectory>
-      <ClassQueryProject>CodeGenerator.Framewrok</ClassQueryProject>
-      <SqlQueryProject>CodeGenerator.Framewrok</SqlQueryProject>
+      <SolutionDirectory>C:\EducationDotNetCore\VMCodeGenerator\CodeGenerator\tests\CodeGenerator.Unit.Tests\bin\Debug\Resources\TestProject</SolutionDirectory>
+      <ClassQueryProject>Project1</ClassQueryProject>
+      <SqlQueryProject>Project1</SqlQueryProject>
       <ClassQueryDirectory>Query</ClassQueryDirectory>
       <SqlQueryDirectory>TestData\Sql</SqlQueryDirectory>
-      <DataBase>AtonBase</DataBase>
-      <ParentClass>AtonBaseQuery</ParentClass>
+      <DataBase>DefaultBase</DataBase>
+      <ParentClass>BaseQuery</ParentClass>
   </Query>
 </Config>

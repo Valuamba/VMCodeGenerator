@@ -11,16 +11,16 @@ namespace CodeGenerator.Configurations
         public TemplateConfiguration()
         {
             settingsFile = Startup.GetSettings();
-            ClassTemplatePath = GetPath(nameof(ClassTemplatePath));
-            SqlTemplatePath = GetPath(nameof(SqlTemplatePath));
+            ClassTemplate = GetPath(nameof(ClassTemplate));
+            SqlTemplate = GetPath(nameof(SqlTemplate));
         }
 
-        public readonly string ClassTemplatePath;
-        public readonly string SqlTemplatePath;
+        public readonly string ClassTemplate;
+        public readonly string SqlTemplate;
 
         public string GetPath(string key)
         {
-            return Path.Combine(AppContext.BaseDirectory, "Resources", "Template", settingsFile.GetValue<string>($".template.{key.ToLowerFirstChar()}"));
+            return Path.Combine(AppContext.BaseDirectory, "Resources", "Templates", settingsFile.GetValue<string>($".templates.{key.ToLowerFirstChar()}"));
         }
     }
 }

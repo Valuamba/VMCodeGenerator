@@ -1,6 +1,7 @@
 ﻿using CodeGenerator.Commands;
 using CodeGenerator.CompositeCommands;
 using CodeGenerator.Configurations;
+using CodeGenerator.Document;
 using CodeGenerator.Utilities;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,13 @@ namespace CodeGenerator
     public class Startup
     {
         private static JsonSettingsFile settingsFile;
-
+        public static QueryConfigXmlBuilder QueryConfigBuilder => new QueryConfigXmlBuilder();
         public static TemplateConfiguration TemplateConfiguration => new TemplateConfiguration();
 
         public static Dictionary<Type, Rule> Rull => new Dictionary<Type, Rule>
         {
             { typeof(CreateCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand) }, 
-                unorderedList: new List<Type> { typeof(ParrentClassCommand), typeof(DataBaseCommand), typeof(ClassProjectPathCommand), typeof(SqlProjectPathCommand) })},
+                unorderedList: new List<Type> { typeof(ParrentClassCommand), typeof(DataBaseCommand), typeof(ClassProjectPathCommand), typeof(SqlProjectPathCommand), typeof(PathCommand) })},
             { typeof(RemoveCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand), typeof(NameCommand) }, 
                 unorderedList: new List<Type> { typeof(DataBaseCommand), typeof(ClassProjectPathCommand), typeof(SqlProjectPathCommand) }) },
             { typeof(RenameCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand), typeof(NameCommand) }, 
