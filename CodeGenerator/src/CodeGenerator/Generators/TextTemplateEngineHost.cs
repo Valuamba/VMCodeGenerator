@@ -7,6 +7,7 @@ using System.Text;
 
 namespace CodeGenerator.Generators
 {
+    [Serializable]
     public abstract class TextTemplateEngineHost : BaseEngineHost, ITextTemplatingEngineHost
     {
         internal string TemplateFileValue;

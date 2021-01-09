@@ -1,6 +1,8 @@
 ﻿using CodeGenerator.Exceptions;
 using CodeGenerator.Utilities.ExceptionUtilities;
 using Microsoft.VisualStudio.TextTemplating;
+using System;
+using System.CodeDom.Compiler;
 using System.IO;
 
 namespace CodeGenerator.Generators
@@ -46,7 +48,12 @@ namespace CodeGenerator.Generators
 
         public virtual string GenerateContent()
         {
-            return Engine.ProcessTemplate(File.ReadAllText(TemplatePath), EngineHost);
+            var content = Engine.ProcessTemplate(File.ReadAllText(TemplatePath), EngineHost);
+            foreach (CompilerError error in EngineHost.Errors)
+            {
+                Console.WriteLine(error.ErrorText);
+            }
+            return content;
         }
 
         public void Generate()

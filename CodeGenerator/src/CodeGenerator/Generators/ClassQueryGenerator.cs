@@ -29,10 +29,8 @@ namespace CodeGenerator.Generators
             host.SetValue("ClassName", Name);
             host.SetValue("BaseClass", ParrentClassName);
 
-            host.AddAssemblyLocation(typeof(ClassHost).Assembly.Location);
-            host.AddAssemblyLocation(typeof(BaseEngineHost).Assembly.Location);
-
-            host.AddNamespace("CodeGenerator.Generator");
+            host.AddAssemblyLocation(host.GetType().Assembly.Location);
+            host.AddNamespace(host.GetType().Namespace);
 
             host.TemplateFileValue = TemplatePath;
             return host;

@@ -1,9 +1,9 @@
 ﻿<#@ template language="c#" hostSpecific="true" debug="true" #>
 <# 
-	CustomCmdLineHost host = (CustomCmdLineHost) (Host);
-	string nameSpace = (string) host.GetValue("NameSpace");
-	string className = (string) host.GetValue("ClassName");
-	string baseClass = (string) host.GetValue("BaseClass");
+	ClassHost host = (ClassHost) (Host);
+	string nameSpace = host.GetString("NameSpace");
+	string className = host.GetString("ClassName");
+	string baseClass = host.GetString("BaseClass");
 #>
 using System;
 using System.Collections.Generic;
