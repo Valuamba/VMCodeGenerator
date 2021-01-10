@@ -8,6 +8,8 @@ namespace CodeGenerator.Test
     [TestClass]
     public class ArgumentUtilityTest
     {
+        public static ArgumentUtility ArgumentUtility => new ArgumentUtility();
+
         [TestMethod]
         public void ParseMethod_ValidData()
         {
