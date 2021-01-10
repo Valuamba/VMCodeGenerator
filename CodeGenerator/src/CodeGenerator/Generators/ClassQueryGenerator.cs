@@ -9,7 +9,7 @@ namespace CodeGenerator.Generators
         protected override ItemType ItemType => ItemType.Compile;
         protected override string FileExtension => ".cs";
 
-        public ClassQueryGenerator(string queryName, string dataBase, string includeDataBasePath, string projectName, string includeQueryDirectory, string solutionPath, string templatePath, string parrentClassName)
+        public ClassQueryGenerator(string queryName, string dataBase, string includeDataBasePath, string projectName, string includeQueryDirectory, string solutionPath, string templatePath, string parrentClassName = null)
             : base(queryName, dataBase, projectName, includeQueryDirectory, solutionPath, templatePath)
         {
             ParrentClassName = parrentClassName;

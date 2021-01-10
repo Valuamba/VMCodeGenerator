@@ -69,7 +69,7 @@ namespace CodeGenerator.Generators
 
         public void Rename(string newName)
         {
-            Solution.Rename(ProjectName, IncludeDirectoryPath, Name + FileExtension, newName);
+            Solution.Rename(ProjectName, IncludeDirectoryPath, Name + FileExtension, newName + FileExtension);
         }
 
         public void Delete()

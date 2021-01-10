@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CodeGenerator.Helper;
+using System;
+using System.Text.RegularExpressions;
 
 namespace CodeGenerator.Commands
 {
-    public class PathCommand : ICommand<string>
+    public class PathCommand : BaseStringCommand, ICommand<string>
     {
         public readonly string Path;
 
@@ -13,7 +15,14 @@ namespace CodeGenerator.Commands
 
         public string Invoke()
         {
-            return Path;
+            return IsValid(Path);
+        }
+
+        public override string IsValid(string input)
+        {
+            return Regex.IsMatch(input, RegexHelper.DirectoryPathRegex)
+                 ? input
+                 : throw new ArgumentException(MessageLocalization.GetMessage("message.error.isNotValid.includeDirectoryPath", "database"));
         }
 
         void ICommand.Invoke()

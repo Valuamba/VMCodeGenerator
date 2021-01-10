@@ -35,7 +35,7 @@ namespace CodeGenerator.Utilities
                 case "remove": return (RemoveCompositeCommand) Activator.CreateInstance(typeof(RemoveCompositeCommand));
                 case "rename": return (RenameCompositeCommand) Activator.CreateInstance(typeof(RenameCompositeCommand));
                 case "global": return (GlobalConfigCompositeCommand) Activator.CreateInstance(typeof(GlobalConfigCompositeCommand));
-
+                case "regenerate": return (RegenerateCompositeCommand)Activator.CreateInstance(typeof(RegenerateCompositeCommand));
                 default: throw new ArgumentException("Incorrect argument");
             }
         }

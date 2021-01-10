@@ -1,14 +1,15 @@
-﻿using CodeGenerator.Commands;
-using CodeGenerator.Configurations;
+﻿using CodeGenerator.Configurations;
 using CodeGenerator.Generators;
 using CodeGenerator.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CodeGenerator.CompositeCommands
 {
-    public class RenameCompositeCommand : CompositeCommand<string>
+    public class RegenerateCompositeCommand : CompositeCommand<string>
     {
         private TemplateConfiguration TemplateConfiguration => Startup.TemplateConfiguration;
         private Query QueryConfig => Startup.QueryConfigBuilder.GetConfig().Query;
@@ -16,7 +17,7 @@ namespace CodeGenerator.CompositeCommands
         public override void Invoke()
         {
             var queryName = GetInvokeResult(0);
-            var newName = GetInvokeResult(1);
+            var parrentClassName = GetInvokeResult(1) ?? QueryConfig.ParentClass;
             var dataBase = GetInvokeResult(2) ?? QueryConfig.DataBase;
             var classProjectQueryDirectory = GetInvokeResult(3) ?? QueryConfig.ClassQueryDirectory;
             var sqlProjectQueryDirectory = GetInvokeResult(4) ?? QueryConfig.SqlQueryDirectory;
@@ -30,8 +31,8 @@ namespace CodeGenerator.CompositeCommands
             var classTemplatePath = TemplateConfiguration.ClassTemplate;
             var sqlTemplatePath = TemplateConfiguration.SqlTemplate;
 
-            new ClassQueryGenerator(queryName, dataBase, includeDataBasePath, classPojectName, classProjectQueryDirectory, solutionDirectory, classTemplatePath).Rename(newName);
-            new SqlQueryGenerator(queryName, dataBase, sqlProjectName, sqlProjectQueryDirectory, solutionDirectory, sqlTemplatePath).Rename(newName);
+            new ClassQueryGenerator(queryName, dataBase, includeDataBasePath, classPojectName, classProjectQueryDirectory, solutionDirectory, classTemplatePath, parrentClassName).Regenerate();
+            new SqlQueryGenerator(queryName, dataBase, sqlProjectName, sqlProjectQueryDirectory, solutionDirectory, sqlTemplatePath).Regenerate();
         }
     }
 }

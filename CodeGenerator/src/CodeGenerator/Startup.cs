@@ -22,10 +22,12 @@ namespace CodeGenerator
         {
             { typeof(CreateCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand) }, 
                 unorderedList: new List<Type> { typeof(ParrentClassCommand), typeof(DataBaseCommand), typeof(ClassProjectPathCommand), typeof(SqlProjectPathCommand), typeof(PathCommand) })},
-            { typeof(RemoveCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand), typeof(NameCommand) }, 
-                unorderedList: new List<Type> { typeof(DataBaseCommand), typeof(ClassProjectPathCommand), typeof(SqlProjectPathCommand) }) },
+            { typeof(RegenerateCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand) },
+                unorderedList: new List<Type> { typeof(ParrentClassCommand), typeof(DataBaseCommand), typeof(ClassProjectPathCommand), typeof(SqlProjectPathCommand), typeof(PathCommand) })},
+            { typeof(RemoveCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand) }, 
+                unorderedList: new List<Type> { typeof(DataBaseCommand), typeof(ClassProjectPathCommand), typeof(SqlProjectPathCommand), typeof(PathCommand) }) },
             { typeof(RenameCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand), typeof(NameCommand) }, 
-                unorderedList: new List<Type> { typeof(DataBaseCommand) }) },
+                unorderedList: new List<Type>{ typeof(DataBaseCommand), typeof(ClassProjectPathCommand), typeof(SqlProjectPathCommand), typeof(PathCommand) }) },
             { typeof(GlobalConfigCompositeCommand), null}
         };
 

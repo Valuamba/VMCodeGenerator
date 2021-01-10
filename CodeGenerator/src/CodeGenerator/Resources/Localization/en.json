@@ -6,5 +6,7 @@
   "message.write.sql.includeDirectory": "Write directory path to folder that containing databases with '.sql' files: ",
   "message.write.database": "Write database name that will be used by default: ",
   "message.write.parrentClass": "Write parrent class name that will be used by default: ",
-  "message.error.outputValue.isNullOrEmpty": "Current field must contains value!"
+  "message.error.inputValue.isNullOrEmpty": "Current field must contains value!",
+  "message.error.isNotValid.includeDirectoryPath": "Include directory path incorrect for current {0}!",
+  "message.error.isNotValid.name": "Incorrect name for {0}!"
 }

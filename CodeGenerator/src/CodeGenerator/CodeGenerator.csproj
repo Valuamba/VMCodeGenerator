@@ -125,6 +125,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BaseStringCommand.cs" />
     <Compile Include="Commands\ParrentClassCommand.cs" />
     <Compile Include="Commands\ClassProjectPathCommand.cs" />
     <Compile Include="Commands\DataBaseCommand.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="CompositeCommands\GlobalConfigCompositeCommand.cs" />
     <Compile Include="CompositeCommands\ICompositeCommand%271.cs" />
     <Compile Include="CompositeCommands\ICompositeCommand.cs" />
+    <Compile Include="CompositeCommands\RegenerateCompositeCommand.cs" />
     <Compile Include="CompositeCommands\RemoveCompositeCommand.cs" />
     <Compile Include="CompositeCommands\RenameCompositeCommand.cs" />
     <Compile Include="Configurations\IMessageConfiguration.cs" />
@@ -147,17 +149,17 @@
     <Compile Include="Document\Xml\XmlBuilder.cs" />
     <Compile Include="Document\Xml\XmlBuilderCommonSettings.cs" />
     <Compile Include="Exceptions\SolutionException.cs" />
-    <Compile Include="Generators\ProjectInfo.cs" />
+    <Compile Include="Model\ProjectInfo.cs" />
     <Compile Include="Generators\SqlQueryGenerator.cs" />
-    <Compile Include="Generators\TextTemplateEngineHost.cs" />
-    <Compile Include="Generators\ClassHost.cs" />
+    <Compile Include="T4Hosts\TextTemplateEngineHost.cs" />
+    <Compile Include="T4Hosts\ClassHost.cs" />
     <Compile Include="Generators\ClassQueryGenerator.cs" />
-    <Compile Include="Generators\BaseEngineHost.cs" />
-    <Compile Include="Generators\ItemType.cs" />
+    <Compile Include="T4Hosts\BaseEngineHost.cs" />
+    <Compile Include="Model\ItemType.cs" />
     <Compile Include="Generators\QueryGenerator.cs" />
-    <Compile Include="Generators\SqlHost.cs" />
-    <Compile Include="Generators\SolutionInfo.cs" />
-    <Compile Include="Helper\MessageHelper.cs" />
+    <Compile Include="T4Hosts\SqlHost.cs" />
+    <Compile Include="Model\SolutionInfo.cs" />
+    <Compile Include="Helper\RegexHelper.cs" />
     <Compile Include="Localization\LocalizationManager.cs" />
     <Compile Include="Localization\MessageLocalization.cs" />
     <Compile Include="Model\Config.cs" />
@@ -190,9 +192,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Config\user.config.xml">
+    <EmbeddedResource Include="Resources\Config\user.config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
     <None Include="Resources\Templates\ClassTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ClassTemplate.cs</LastGenOutput>

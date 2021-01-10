@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CodeGenerator.Helper;
+using System;
+using System.Text.RegularExpressions;
 
 namespace CodeGenerator.Commands
 {
-    public class DataBaseCommand : ICommand<string>
+    public class DataBaseCommand : BaseStringCommand, ICommand<string>
     {
         public readonly string DataBaseName;
 
@@ -13,7 +15,14 @@ namespace CodeGenerator.Commands
 
         public string Invoke()
         {
-            return DataBaseName;
+            return IsValid(DataBaseName);
+        }
+
+        public override string IsValid(string input)
+        {
+            return Regex.IsMatch(input, RegexHelper.NameValidRegex)
+                 ? input
+                 : throw new ArgumentException(MessageLocalization.GetMessage("message.error.isNotValid.name", "database"));
         }
 
         void ICommand.Invoke()

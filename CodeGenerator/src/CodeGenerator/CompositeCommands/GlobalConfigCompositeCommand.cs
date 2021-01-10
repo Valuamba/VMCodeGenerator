@@ -31,13 +31,14 @@ namespace CodeGenerator.CompositeCommands
                 Startup.ConsoleRetrier.DoWithRetry(() =>
                 {
                     Console.WriteLine(MessageLocalization.GetMessage(iteraction.Key));
+                    //todo: добавить проверку
                     var output = Console.ReadLine();
                     if(!output.IsNullOrEmpty())
                     {
                         SetPropertyValue(iteraction.Value, output);
                     }
                     return output.IsNullOrEmpty() && GetProperty(iteraction.Value).IsNullOrEmpty() ? false : true;
-                }, MessageLocalization.GetMessage("message.error.outputValue.isNullOrEmpty"));
+                }, MessageLocalization.GetMessage("message.error.inputValue.isNullOrEmpty"));
             }
             Startup.QueryConfigBuilder.SetQueryConfig(QueryConfig);
         }
