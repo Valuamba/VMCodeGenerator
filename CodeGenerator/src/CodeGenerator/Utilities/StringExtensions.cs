@@ -12,6 +12,11 @@ namespace CodeGenerator.Utilities
                 : input;
         }
 
+        public static bool IsNullOrEmpty(this string input)
+        {
+            return string.IsNullOrEmpty(input);
+        }
+
         public static int ToInt(this string input)
         {
             return Convert.ToInt32(input.RemoveWhitespaces());

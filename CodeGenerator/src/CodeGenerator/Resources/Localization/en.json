@@ -1,0 +1,10 @@
+{
+  "message.write.directory.solution": "Write path to directory that contains file with extension '.sln': ",
+  "message.write.class.project": "Write name of project that contains program representation of query: ",
+  "message.write.sql.project": "Write name of project that contains file with SQL query: ",
+  "message.write.class.includeDirectory": "Write directory path to folder that containing databases with '.cs' files: ",
+  "message.write.sql.includeDirectory": "Write directory path to folder that containing databases with '.sql' files: ",
+  "message.write.database": "Write database name that will be used by default: ",
+  "message.write.parrentClass": "Write parrent class name that will be used by default: ",
+  "message.error.outputValue.isNullOrEmpty": "Current field must contains value!"
+}

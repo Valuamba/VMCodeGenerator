@@ -14,11 +14,14 @@ namespace CodeGenerator.Utilities
                 compositeCommand = GetCompositeCommand(args[0]);
                 index++;
             }
-            compositeCommand.Add(GetCommand(args, ref index));
-            index++;
-            if (index < args.Count)
+            if (args.Count > 1)
             {
-                Parse(args, compositeCommand, index);
+                compositeCommand.Add(GetCommand(args, ref index));
+                index++;
+                if (index < args.Count)
+                {
+                    Parse(args, compositeCommand, index);
+                }
             }
 
             return compositeCommand;

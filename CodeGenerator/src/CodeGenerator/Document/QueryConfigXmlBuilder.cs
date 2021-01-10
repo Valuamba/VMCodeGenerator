@@ -14,11 +14,11 @@ namespace CodeGenerator.Document
 
         protected override XmlBuilderCommonSettings BuilderSettings => new QueryConfigCommonSettings();
 
-        public void SetPath(string sqlDirectoryPath, string sqlClassDirectoryPath)
+        public void SetQueryConfig(Query queryConfig)
         {
-            //var config = Deserialize<Config>();
-            //config.ClassDirectoryPath = sqlClassDirectoryPath;
-            //config.SqlDirectoryPath = sqlDirectoryPath;
+            var config = Deserialize<Config>();
+            config.Query = queryConfig;
+            Serialize(config);
         }
 
         public Config GetConfig()

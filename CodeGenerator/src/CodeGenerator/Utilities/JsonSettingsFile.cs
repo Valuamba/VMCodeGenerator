@@ -12,7 +12,7 @@ namespace CodeGenerator.Utilities
     /// Note that the value can be overriden via Environment variable with the same name
     /// (e.g. for json path ".timeouts.timeoutScript" you can set environment variable "timeouts.timeoutScript"
     /// </summary>
-    public class JsonSettingsFile
+    public class JsonSettingsFile : ISettingsFile
     {
         private readonly string fileContent;
         private readonly string resourceName;

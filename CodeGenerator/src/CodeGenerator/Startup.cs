@@ -2,6 +2,7 @@
 using CodeGenerator.CompositeCommands;
 using CodeGenerator.Configurations;
 using CodeGenerator.Document;
+using CodeGenerator.Localization;
 using CodeGenerator.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,9 @@ namespace CodeGenerator
         private static JsonSettingsFile settingsFile;
         public static QueryConfigXmlBuilder QueryConfigBuilder => new QueryConfigXmlBuilder();
         public static TemplateConfiguration TemplateConfiguration => new TemplateConfiguration();
-
+        public static MessageConfiguration MessageConfiguration => new MessageConfiguration();
+        public static MessageLocalization MessageLocalization => new MessageLocalization();
+        public static ConsoleRetrier ConsoleRetrier => new ConsoleRetrier();
         public static Dictionary<Type, Rule> Rull => new Dictionary<Type, Rule>
         {
             { typeof(CreateCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand) }, 

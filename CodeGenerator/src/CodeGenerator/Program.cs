@@ -8,17 +8,7 @@ namespace CodeGenerator
     public class Program1
     {
         public static void Main(string[] args)
-        {
-            //args = new string[]
-            //{
-            //    "create",
-            //    "-n",
-            //    "FirstName",
-            //    "-db",
-            //    "AtonBase",
-            //    "-b",
-            //    "AtonBaseQuery"
-            //};
+        { 
             QueryManager manager = new QueryManager();
             manager.Execute(args);
         }

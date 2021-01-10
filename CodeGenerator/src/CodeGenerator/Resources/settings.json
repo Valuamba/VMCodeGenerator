@@ -5,5 +5,8 @@
   },
   "config": {
     "name": "user.config.xml"
+  },
+  "message": {
+    "language": "en"
   }
 }

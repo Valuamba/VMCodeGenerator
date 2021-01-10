@@ -139,6 +139,8 @@
     <Compile Include="CompositeCommands\ICompositeCommand.cs" />
     <Compile Include="CompositeCommands\RemoveCompositeCommand.cs" />
     <Compile Include="CompositeCommands\RenameCompositeCommand.cs" />
+    <Compile Include="Configurations\IMessageConfiguration.cs" />
+    <Compile Include="Configurations\MessageConfiguration.cs" />
     <Compile Include="Configurations\TemplateConfiguration.cs" />
     <Compile Include="Document\QueryConfigCommonSettings.cs" />
     <Compile Include="Document\QueryConfigXmlBuilder.cs" />
@@ -156,6 +158,8 @@
     <Compile Include="Generators\SqlHost.cs" />
     <Compile Include="Generators\SolutionInfo.cs" />
     <Compile Include="Helper\MessageHelper.cs" />
+    <Compile Include="Localization\LocalizationManager.cs" />
+    <Compile Include="Localization\MessageLocalization.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\Query.cs" />
     <Compile Include="Program.cs" />
@@ -163,10 +167,12 @@
     <Compile Include="QueryManager.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\ConsoleRetrier.cs" />
     <Compile Include="Utilities\ArgumentUtility.cs" />
     <Compile Include="Utilities\ExceptionUtilities\HandleExceptionUtility.cs" />
     <Compile Include="Utilities\ExceptionUtilities\ThrowExceptionUtility.cs" />
     <Compile Include="Utilities\FileReader.cs" />
+    <Compile Include="Utilities\ISettingsFile.cs" />
     <Compile Include="Utilities\JsonSettingsFile.cs" />
     <Compile Include="Utilities\ProjectExtensions.cs" />
     <Compile Include="Utilities\SettingsFileExtensions.cs" />
@@ -175,13 +181,17 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="Resources\Localization\ru.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Localization\en.json" />
     <None Include="Resources\settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Config\user.config.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Templates\ClassTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -201,9 +211,7 @@
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.3.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.3.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\Localization\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
