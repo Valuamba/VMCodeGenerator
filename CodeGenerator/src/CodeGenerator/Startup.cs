@@ -18,6 +18,7 @@ namespace CodeGenerator
         public static MessageConfiguration MessageConfiguration => new MessageConfiguration();
         public static MessageLocalization MessageLocalization => new MessageLocalization();
         public static ConsoleRetrier ConsoleRetrier => new ConsoleRetrier();
+        public static ArgumentUtility ArgumentUtility => new ArgumentUtility();
         public static Dictionary<Type, Rule> Rull => new Dictionary<Type, Rule>
         {
             { typeof(CreateCompositeCommand), new Rule(orderedList: new List<Type> { typeof(NameCommand) }, 

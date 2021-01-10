@@ -1,4 +1,6 @@
-﻿using Microsoft.Build.Evaluation;
+﻿using CodeGenerator.Localization;
+using CodeGenerator.Utilities.ExceptionUtilities;
+using Microsoft.Build.Evaluation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,13 +12,15 @@ namespace CodeGenerator.Generators
 {
     public class ProjectInfo : Project
     {
+        private readonly MessageLocalization MessageLocalization = Startup.MessageLocalization;
+
         public ProjectInfo(string path) : base(path)
         {
         }
 
         private ProjectItem GetItemByEvaluatedInclude(string evaluatedInclude)
         {
-            return GetItemsByEvaluatedInclude(evaluatedInclude).Single();
+            return GetItemsByEvaluatedInclude(evaluatedInclude).SingleOrDefault();
         }
 
         private void ProjectActionMethod(Action<string, string, string> action, string includeDirectoryPath, string fileName)
@@ -33,6 +37,8 @@ namespace CodeGenerator.Generators
         {
             ProjectActionMethod((fullDirectoryPath, fullPath, includePath) =>
             {
+                ThrowExceptionUtility.ThrowException<ArgumentException>(() => IsFileExist(fullPath) || IsItemExist(includePath),
+                    message: MessageLocalization.GetMessage("project.error.file.isAlreadyExist", includePath));
                 Directory.CreateDirectory(fullDirectoryPath);
                 File.WriteAllText(fullPath, content);
                 AddItem(itemType.ToString(), includePath);
@@ -40,14 +46,29 @@ namespace CodeGenerator.Generators
             }, includeDirectoryPath, fileName);
         }
 
+        public bool IsItemExist(string includePath)
+        {
+            return GetItemByEvaluatedInclude(includePath) != null;
+        }
+
+        public bool IsFileExist(string fullPath)
+        {
+            return File.Exists(fullPath);
+        }
+
         public void Rename(string includeDirectoryPath, string fileName, string newName)
         {
             ProjectActionMethod((fullDirectoryPath, fullPath, includePath) =>
             {
+                ThrowExceptionUtility.ThrowException<ArgumentException>(() => !IsFileExist(fullPath) || !IsItemExist(includePath),
+                    message: MessageLocalization.GetMessage("project.error.file.doesNotExist", includePath));
                 var item = GetItemByEvaluatedInclude(includePath);
                 var destFullPath = Path.Combine(fullDirectoryPath, newName);
+                var newIncludePath = Path.Combine(includeDirectoryPath, newName);
+                ThrowExceptionUtility.ThrowException<ArgumentException>(() => IsFileExist(destFullPath) || IsItemExist(newIncludePath),
+                    message: MessageLocalization.GetMessage("project.error.file.isAlreadyExist", newIncludePath));
                 File.Move(fullPath, destFullPath);
-                item.Rename(Path.Combine(includeDirectoryPath, newName));
+                item.Rename(newIncludePath);
 
             }, includeDirectoryPath, fileName);
         }
@@ -56,6 +77,8 @@ namespace CodeGenerator.Generators
         {
             ProjectActionMethod((fullDirectoryPath, fullPath, includePath) =>
             {
+                ThrowExceptionUtility.ThrowException<ArgumentException>(() => !IsFileExist(fullPath) || !IsItemExist(includePath),
+                    message: MessageLocalization.GetMessage("project.error.file.doesNotExist", includePath));
                 var item = GetItemByEvaluatedInclude(includePath);
                 File.Delete(fullPath);
                 RemoveItem(item);
@@ -67,6 +90,8 @@ namespace CodeGenerator.Generators
         {
             ProjectActionMethod((fullDirectoryPath, fullPath, includePath) =>
             {
+                ThrowExceptionUtility.ThrowException<ArgumentException>(() => !IsFileExist(fullPath) || !IsItemExist(includePath),
+                    message: MessageLocalization.GetMessage("project.error.file.doesNotExist", includePath));
                 File.WriteAllText(fullPath, content);
 
             }, includeDirectoryPath, fileName);

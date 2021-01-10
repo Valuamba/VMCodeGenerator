@@ -8,5 +8,12 @@
   "message.write.parrentClass": "Write parrent class name that will be used by default: ",
   "message.error.inputValue.isNullOrEmpty": "Current field must contains value!",
   "message.error.isNotValid.includeDirectoryPath": "Include directory path incorrect for current {0}!",
-  "message.error.isNotValid.name": "Incorrect name for {0}!"
+  "message.error.isNotValid.name": "Incorrect name for {0}!",
+  "solution.error.projects.doesNotExist": "Projects of current solution does not exist!",
+  "project.error.file.isAlreadyExist": "File at path [{0}] is already exist!",
+  "project.error.file.doesNotExist": "File at path [{0}] does not exist!",
+  "argument.incorrect.compositeCommand": "Incorrect command: {0}",
+  "argument.incorrect.tag": "Incorrect tag: {0}",
+  "rule.incorrect.command.fromUnorderedList": "",
+  "rule.incorrect.command.fromOrderedList": ""
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using CodeGenerator.Exceptions;
+using CodeGenerator.Localization;
 using CodeGenerator.Utilities;
 
 namespace CodeGenerator.Generators
@@ -10,6 +12,7 @@ namespace CodeGenerator.Generators
     //Should be singleton
     public class SolutionInfo
     {
+        private MessageLocalization MessageLocalization = Startup.MessageLocalization;
         private const string SolutionFileExtension = ".sln";
 
         public readonly DirectoryInfo SolutionDirectory;
@@ -20,7 +23,7 @@ namespace CodeGenerator.Generators
         {
             if (!IsSolutionDirectory(path, out SolutionFile))
             {
-                throw new ArgumentException($"Directory at path [{path}] does not directory of solution.");
+                throw new ArgumentException($"Directory at path [{path}] is not a directory of solution.");
             }
             Projects = GetProjects();
             SolutionDirectory = new DirectoryInfo(path);
@@ -73,6 +76,10 @@ namespace CodeGenerator.Generators
                 using (var stream = new StreamReader(fileStream))
                 {
                     var matches = Regex.Matches(stream.ReadToEnd(), "(?<=Project\\(\"\\{[\\w\\d-]+\\}\"\\) = \"[\\w\\.]+\", \")([\\.\\w\\\\]+(cs)proj)");
+                    if(matches.Count == 0)
+                    {
+                        throw new Exception(MessageLocalization.GetMessage("solution.error.projects.doesNotExist"));
+                    }
                     foreach (Match match in matches)
                     {
                         projects.Add(new ProjectInfo(Path.Combine(SolutionFile.DirectoryName, match.Value)));

@@ -1,5 +1,6 @@
 ﻿using CodeGenerator.Commands;
 using CodeGenerator.CompositeCommands;
+using CodeGenerator.Localization;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +8,9 @@ namespace CodeGenerator.Utilities
 {
     public class ArgumentUtility
     {
-        public static ICompositeCommand<string> Parse(List<string> args, ICompositeCommand<string> compositeCommand = null, int index = 0)
+        private readonly MessageLocalization MessageLocalization = Startup.MessageLocalization;
+
+        public ICompositeCommand<string> Parse(List<string> args, ICompositeCommand<string> compositeCommand = null, int index = 0)
         {
             if (compositeCommand == null)
             {
@@ -27,7 +30,7 @@ namespace CodeGenerator.Utilities
             return compositeCommand;
         }
 
-        private static ICompositeCommand<string> GetCompositeCommand(string arg)
+        private ICompositeCommand<string> GetCompositeCommand(string arg)
         {
             switch (arg)
             {
@@ -36,11 +39,11 @@ namespace CodeGenerator.Utilities
                 case "rename": return (RenameCompositeCommand) Activator.CreateInstance(typeof(RenameCompositeCommand));
                 case "global": return (GlobalConfigCompositeCommand) Activator.CreateInstance(typeof(GlobalConfigCompositeCommand));
                 case "regenerate": return (RegenerateCompositeCommand)Activator.CreateInstance(typeof(RegenerateCompositeCommand));
-                default: throw new ArgumentException("Incorrect argument");
+                default: throw new ArgumentException(MessageLocalization.GetMessage("argument.incorrect.compositeCommand", arg));
             }
         }
 
-        private static ICommand<string> GetCommand(List<string> args, ref int index)
+        private ICommand<string> GetCommand(List<string> args, ref int index)
         {
             switch (args[index])
             {
@@ -60,7 +63,7 @@ namespace CodeGenerator.Utilities
                 case "--spath":
                     return (SqlProjectPathCommand)Activator.CreateInstance(typeof(SqlProjectPathCommand), args[++index]);
 
-                default: throw new ArgumentException("Incorrect argument");
+                default: throw new ArgumentException(MessageLocalization.GetMessage("argument.incorrect.tag", args[index]));
             };
         }
     }

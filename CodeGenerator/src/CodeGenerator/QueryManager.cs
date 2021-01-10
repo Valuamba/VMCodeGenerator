@@ -9,7 +9,7 @@ namespace CodeGenerator
     {
         public void Execute(string[] args)
         {
-            var compositeCommand = ArgumentUtility.Parse(args.ToList());
+            var compositeCommand = Startup.ArgumentUtility.Parse(args.ToList());
             Validate(compositeCommand, Startup.Rull[compositeCommand.GetType()]);
             compositeCommand.Invoke();
         }
